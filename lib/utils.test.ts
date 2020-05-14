@@ -12,7 +12,7 @@ describe('utils.ts', () => {
         },
         body: JSON.stringify({
           message: 'test',
-          input: { foo: 'bar' },
+          result: { foo: 'bar' },
         }),
       });
     });
@@ -26,26 +26,7 @@ describe('utils.ts', () => {
         },
         body: JSON.stringify({
           message: 'test',
-          input: { foo: 'bar' },
-        }),
-      });
-    });
-
-    test('returns sanitized http response on production', () => {
-      process.env.STAGE = 'production';
-      const response = httpResponse(400, 'test', {
-        foo: 'bar',
-        config: { config: { domain: 'foobar' } },
-      });
-      expect(response).toEqual({
-        statusCode: 400,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': '*',
-        },
-        body: JSON.stringify({
-          message: 'test',
-          input: { domain: 'foobar' },
+          result: { foo: 'bar' },
         }),
       });
     });
@@ -70,18 +51,6 @@ describe('utils.ts', () => {
       expect(spyLog).not.toHaveBeenCalled();
       expect(spyWarn).not.toHaveBeenCalled();
       expect(spyInfo).not.toHaveBeenCalled();
-      expect(spyError).toHaveBeenCalledWith('error');
-    });
-
-    test('calls console methods', () => {
-      process.env.NODE_ENV = 'dev';
-      Logger.log('log');
-      Logger.warn('warn');
-      Logger.info('info');
-      Logger.error('error');
-      expect(spyLog).toHaveBeenCalledWith('log');
-      expect(spyWarn).toHaveBeenCalledWith('warn');
-      expect(spyInfo).toHaveBeenCalledWith('info');
       expect(spyError).toHaveBeenCalledWith('error');
     });
   });

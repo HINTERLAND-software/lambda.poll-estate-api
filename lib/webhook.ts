@@ -7,9 +7,9 @@ import { EstateSets, Payload, Webhook, WebhookResponse } from '../types';
 import { getConfig } from './config';
 import { getEnvironment } from './utils';
 
-const getEpoch = (date: string): number => new Date(date).getTime();
+export const getEpoch = (date: string): number => new Date(date).getTime();
 
-const isStaleEstate = (
+export const isStaleEstate = (
   contentfulEstate: Entry<any>,
   portalEstate: RealEstateCommonProperties
 ): boolean => {
@@ -37,7 +37,9 @@ export const generatePayload = (sets: EstateSets): Payload => {
   );
 
   const deleted = contentful
-    .filter(({ sys }) => portal.some(({ internalID }) => internalID !== sys.id))
+    .filter(({ sys }) =>
+      portal.every(({ internalID }) => internalID !== sys.id)
+    )
     .map(({ sys }) => sys.id);
 
   return { ...changed, deleted };
@@ -60,7 +62,7 @@ const triggerWebhook = (
     },
   };
 
-  const { request } = protocol === 'https' ? https : http;
+  const { request } = protocol === 'https:' ? https : http;
 
   return new Promise((resolve, reject) => {
     const req = request(url, options, (res) => {
@@ -80,10 +82,11 @@ export const triggerWebhooks = async (
 ): Promise<WebhookResponse[]> => {
   const { webhooks } = await getConfig(domain);
   const hasUpdates = Object.values(payload).some((val) => val.length > 0);
+  const isNotProduction = getEnvironment() !== 'production';
 
   return Promise.all(
     webhooks.map(async (webhook) => {
-      const disabled = getEnvironment() !== 'production' || !!webhook.disabled;
+      const disabled = isNotProduction || !!webhook.disabled;
       const res = {
         url: webhook.url,
         triggered: !disabled && hasUpdates,

@@ -26,8 +26,8 @@ export class Contentful {
   public filterEstates(): contentful.Entry<any>[] {
     if (!this.estates) throw new Error('Fetch estates first');
     const { filter } = this.config;
-    const commons = this.estates.items;
-    if (!filter) return commons;
-    return jp.query(commons, filter);
+    const { items } = this.estates;
+    if (!filter) return items;
+    return jp.query(items, filter);
   }
 }

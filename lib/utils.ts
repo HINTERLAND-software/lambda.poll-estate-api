@@ -1,5 +1,17 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
 
+export const omit = <T>(obj: T, keys: string[]): T =>
+  Object.entries(obj).reduce(
+    (acc, [key, value]) =>
+      keys.includes(key)
+        ? acc
+        : {
+            ...acc,
+            [key]: value,
+          },
+    {}
+  ) as T;
+
 export const httpResponse = (
   statusCode: number = 400,
   message: string,

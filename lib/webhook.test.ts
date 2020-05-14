@@ -8,6 +8,8 @@ import { mockCommonIS24 as portalMocks } from './__mocks__/estate-portal-aggrega
 import { mockCommon as contentfulMocks } from './__mocks__/contentful';
 import * as https from 'https';
 import * as http from 'http';
+import { mockParameters } from './__mocks__/aws-sdk';
+import { omit } from './utils';
 
 jest.mock('https');
 jest.mock('http');
@@ -76,9 +78,11 @@ describe('webhooks.ts', () => {
 
       const result = generatePayload(estateSets);
       expect(result).toEqual({
-        created: ['5'],
-        deleted: ['1'],
-        updated: ['2', '4'],
+        updates: {
+          created: ['5'],
+          deleted: ['1'],
+          updated: ['2', '4'],
+        },
       });
     });
   });
@@ -91,15 +95,30 @@ describe('webhooks.ts', () => {
     test('triggers the correct webhooks', async () => {
       process.env.STAGE = 'production';
 
-      const payload = {
-        created: ['5'],
-        deleted: ['1'],
-        updated: ['2', '4'],
+      const domain = 'hinterland.software';
+
+      const mocked = mockParameters[domain];
+
+      const config = {
+        domain: mocked.domain,
+        portal: omit(mocked.portal, ['credentials']),
+        contentful: omit(mocked.contentful, ['cdaToken']),
       };
 
-      const result = await triggerWebhooks('hinterland.software', payload);
+      const payload = {
+        updates: {
+          created: ['5'],
+          deleted: ['1'],
+          updated: ['2', '4'],
+        },
+      };
 
-      expect(request.write).toHaveBeenCalledWith(JSON.stringify(payload));
+      const result = await triggerWebhooks(domain, payload);
+
+      expect(JSON.parse(request.write.mock.calls[0])).toEqual({
+        ...payload,
+        config,
+      });
       expect(request.end).toHaveBeenCalledTimes(1);
 
       const response = {
@@ -113,19 +132,25 @@ describe('webhooks.ts', () => {
           },
         },
       };
+
       expect(result).toEqual([
         {
-          disabled: false,
-          hasUpdates: true,
+          flags: {
+            triggered: true,
+            hasUpdates: true,
+            disabled: false,
+            environment: 'production',
+          },
           response: JSON.stringify(response),
-          triggered: true,
           url: 'https://hinterland.software/webhook',
         },
         {
-          disabled: true,
-          hasUpdates: true,
-          response: '',
-          triggered: false,
+          flags: {
+            triggered: false,
+            hasUpdates: true,
+            disabled: true,
+            environment: 'production',
+          },
           url: 'https://hinterland.software/webhook',
         },
       ]);

@@ -24,7 +24,9 @@ export const parseConfig = (config: string): Config => {
   return parsed;
 };
 
+let cache: { [domain: string]: Config } = {};
 export const getConfig = async (domain: string): Promise<Config> => {
+  if (cache[domain]) return { ...cache[domain] };
   const configString = await fetchConfig(domain);
   const config = parseConfig(configString);
 
@@ -32,6 +34,7 @@ export const getConfig = async (domain: string): Promise<Config> => {
     throw new Error(`No configuration found for domain "${domain}"`);
   }
 
+  cache[domain] = config;
   return config;
 };
 
@@ -53,4 +56,8 @@ export const getDomains = async (): Promise<string[]> => {
   const domainsString = await fetchDomains();
   const domains = parseDomains(domainsString);
   return domains;
+};
+
+export const clearCache = () => {
+  cache = {};
 };

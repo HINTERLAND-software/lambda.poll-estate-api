@@ -5,7 +5,7 @@ import https from 'https';
 import { URL } from 'url';
 import { EstateSets, Payload, Webhook, WebhookResponse } from '../types';
 import { getConfig } from './config';
-import { getEnvironment } from './utils';
+import { getEnvironment, omit } from './utils';
 
 export const getEpoch = (date: string): number => new Date(date).getTime();
 
@@ -42,7 +42,12 @@ export const generatePayload = (sets: EstateSets): Payload => {
     )
     .map(({ sys }) => sys.id);
 
-  return { ...changed, deleted };
+  return {
+    updates: {
+      ...changed,
+      deleted,
+    },
+  };
 };
 
 const triggerWebhook = (
@@ -80,23 +85,33 @@ export const triggerWebhooks = async (
   domain: string,
   payload: Payload
 ): Promise<WebhookResponse[]> => {
-  const { webhooks } = await getConfig(domain);
-  const hasUpdates = Object.values(payload).some((val) => val.length > 0);
-  const isNotProduction = getEnvironment() !== 'production';
+  const { webhooks, contentful, portal } = await getConfig(domain);
+  const hasUpdates = Object.values(payload.updates).some(
+    (val) => val.length > 0
+  );
+  const environment = getEnvironment();
+  const isProduction = environment === 'production';
+
+  const config = {
+    domain,
+    contentful: omit(contentful, ['cdaToken']),
+    portal: omit(portal, ['credentials']),
+  };
 
   return Promise.all(
     webhooks.map(async (webhook) => {
-      const disabled = isNotProduction || !!webhook.disabled;
-      const res = {
+      const res: WebhookResponse = {
         url: webhook.url,
-        triggered: !disabled && hasUpdates,
-        hasUpdates,
-        disabled,
-        response: '',
+        flags: {
+          triggered: hasUpdates && isProduction && !webhook.disabled,
+          environment,
+          disabled: !!webhook.disabled,
+          hasUpdates,
+        },
       };
 
-      if (res.triggered) {
-        res.response = await triggerWebhook(webhook, payload);
+      if (res.flags.triggered) {
+        res.response = await triggerWebhook(webhook, { ...payload, config });
       }
 
       return res;

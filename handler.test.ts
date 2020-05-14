@@ -1,40 +1,50 @@
 import { poll } from './handler';
 
 const responseBody = {
-  message: '2 domain polled successfully (test)',
+  message: '2 domains polled successfully (test)',
   result: [
     {
       domain: 'foobar.com',
       webhooks: [
         {
           url: 'https://foobar.com/webhook',
-          triggered: false,
-          hasUpdates: true,
-          disabled: true,
-          response: '',
+          flags: {
+            triggered: false,
+            environment: 'test',
+            disabled: false,
+            hasUpdates: true,
+          },
         },
       ],
-      payload: { created: ['6'], updated: [], deleted: ['2', '4'] },
+      payload: {
+        updates: { created: ['6'], updated: [], deleted: ['2', '4'] },
+      },
     },
     {
       domain: 'hinterland.software',
       webhooks: [
         {
           url: 'https://hinterland.software/webhook',
-          triggered: false,
-          hasUpdates: true,
-          disabled: true,
-          response: '',
+          flags: {
+            triggered: false,
+            environment: 'test',
+            disabled: false,
+            hasUpdates: true,
+          },
         },
         {
           url: 'https://hinterland.software/webhook',
-          triggered: false,
-          hasUpdates: true,
-          disabled: true,
-          response: '',
+          flags: {
+            triggered: false,
+            environment: 'test',
+            disabled: true,
+            hasUpdates: true,
+          },
         },
       ],
-      payload: { created: ['5'], updated: ['2'], deleted: ['1', '4'] },
+      payload: {
+        updates: { created: ['5'], updated: ['2'], deleted: ['1', '4'] },
+      },
     },
   ],
 };

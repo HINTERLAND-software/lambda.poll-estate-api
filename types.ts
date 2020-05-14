@@ -9,16 +9,26 @@ import { OutgoingHttpHeaders } from 'http';
 
 export interface WebhookResponse {
   url: string;
-  triggered: boolean;
-  hasUpdates: boolean;
-  disabled: boolean;
+  flags: {
+    triggered: boolean;
+    hasUpdates: boolean;
+    disabled: boolean;
+    environment: string;
+  };
   response?: any;
 }
 
 export interface Payload {
-  deleted: string[];
-  updated: string[];
-  created: string[];
+  config?: {
+    domain: string;
+    portal: PortalConfig;
+    contentful: ContentfulConfig;
+  };
+  updates: {
+    deleted: string[];
+    updated: string[];
+    created: string[];
+  };
 }
 
 export interface EstateSets {

@@ -3,9 +3,9 @@ import { APIGatewayProxyResult } from 'aws-lambda';
 export const httpResponse = (
   statusCode: number = 400,
   message: string,
-  input: any = ''
+  result?: any
 ): APIGatewayProxyResult => {
-  Logger.log(JSON.stringify({ statusCode, message, input }, null, 2));
+  Logger.log(JSON.stringify({ statusCode, message, result }, null, 2));
   return {
     statusCode,
     headers: {
@@ -14,7 +14,7 @@ export const httpResponse = (
     },
     body: JSON.stringify({
       message,
-      input,
+      result,
     }),
   };
 };
@@ -34,7 +34,7 @@ export class Logger {
   }
 }
 
-export const getEnvironment = () => {
+export const getEnvironment = (): string => {
   const { STAGE, NODE_ENV = 'development' } = process.env;
   return STAGE || NODE_ENV;
 };

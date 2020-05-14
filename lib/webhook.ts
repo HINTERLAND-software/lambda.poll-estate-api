@@ -5,6 +5,7 @@ import https from 'https';
 import { URL } from 'url';
 import { EstateSets, Payload, Webhook, WebhookResponse } from '../types';
 import { getConfig } from './config';
+import { getEnvironment } from './utils';
 
 const getEpoch = (date: string): number => new Date(date).getTime();
 
@@ -18,17 +19,17 @@ const isStaleEstate = (
 export const generatePayload = (sets: EstateSets): Payload => {
   const { contentful, portal } = sets;
 
-  const reduced = portal.reduce(
+  const changed = portal.reduce(
     (acc, estate) => {
       const foundEstate = contentful.find(
         ({ sys }) => sys.id === estate.internalID
       );
 
       if (!foundEstate) {
-        return { ...acc, created: [...acc.created, estate] };
+        return { ...acc, created: [...acc.created, estate.internalID] };
       }
       if (isStaleEstate(foundEstate, estate)) {
-        return { ...acc, updated: [...acc.updated, estate] };
+        return { ...acc, updated: [...acc.updated, estate.internalID] };
       }
       return acc;
     },
@@ -39,7 +40,7 @@ export const generatePayload = (sets: EstateSets): Payload => {
     .filter(({ sys }) => portal.some(({ internalID }) => internalID !== sys.id))
     .map(({ sys }) => sys.id);
 
-  return { ...reduced, deleted };
+  return { ...changed, deleted };
 };
 
 const triggerWebhook = (
@@ -77,22 +78,25 @@ export const triggerWebhooks = async (
   domain: string,
   payload: Payload
 ): Promise<WebhookResponse[]> => {
-  const { webhooks, enabled } = await getConfig(domain);
+  const { webhooks } = await getConfig(domain);
   const hasUpdates = Object.values(payload).some((val) => val.length > 0);
 
-  if (hasUpdates && enabled && webhooks.length > 0) {
-    return Promise.all(
-      webhooks.map(async (webhook) => {
-        const result = await triggerWebhook(webhook, payload);
-        return { url: webhook.url, hasUpdates, enabled, result };
-      })
-    );
-  }
+  return Promise.all(
+    webhooks.map(async (webhook) => {
+      const disabled = getEnvironment() !== 'production' || !!webhook.disabled;
+      const res = {
+        url: webhook.url,
+        triggered: !disabled && hasUpdates,
+        hasUpdates,
+        disabled,
+        response: '',
+      };
 
-  return webhooks.map(({ url }) => ({
-    url,
-    hasUpdates,
-    enabled,
-    result: undefined,
-  }));
+      if (res.triggered) {
+        res.response = await triggerWebhook(webhook, payload);
+      }
+
+      return res;
+    })
+  );
 };

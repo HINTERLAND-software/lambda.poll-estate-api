@@ -9,15 +9,16 @@ import { OutgoingHttpHeaders } from 'http';
 
 export interface WebhookResponse {
   url: string;
+  triggered: boolean;
   hasUpdates: boolean;
-  enabled: boolean;
-  result?: any;
+  disabled: boolean;
+  response?: any;
 }
 
 export interface Payload {
   deleted: string[];
-  updated: RealEstateCommonProperties[];
-  created: RealEstateCommonProperties[];
+  updated: string[];
+  created: string[];
 }
 
 export interface EstateSets {
@@ -47,11 +48,11 @@ export declare interface ContentfulConfig {
 export declare interface Webhook {
   url: string;
   headers?: OutgoingHttpHeaders;
+  disabled?: boolean;
 }
 
 export declare interface Config {
   domain: string;
-  enabled: boolean;
   webhooks: Array<Webhook>;
   portal: PortalConfig;
   contentful: ContentfulConfig;

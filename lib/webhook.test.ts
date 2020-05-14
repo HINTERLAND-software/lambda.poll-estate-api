@@ -101,8 +101,8 @@ describe('webhooks.ts', () => {
 
       const config = {
         domain: mocked.domain,
-        portal: omit(mocked.portal, ['credentials']),
-        contentful: omit(mocked.contentful, ['cdaToken']),
+        portal: omit(mocked.portal, ['credentials', 'filter']),
+        contentful: omit(mocked.contentful, ['cdaToken', 'filter']),
       };
 
       const payload = {

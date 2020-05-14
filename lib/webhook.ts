@@ -94,8 +94,8 @@ export const triggerWebhooks = async (
 
   const config = {
     domain,
-    contentful: omit(contentful, ['cdaToken']),
-    portal: omit(portal, ['credentials']),
+    contentful: omit(contentful, ['cdaToken', 'filter']),
+    portal: omit(portal, ['credentials', 'filter']),
   };
 
   return Promise.all(

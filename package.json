@@ -1,7 +1,7 @@
 {
   "name": "lambda-poll-estate-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Poll estate portals and trigger webhooks if necessary",
   "private": false,
   "main": "handler.js",
   "scripts": {

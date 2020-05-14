@@ -1,5 +1,7 @@
 # lambda.poll-estate-api
 
+This lambda fetches estates from Immobilienscout24 or FlowFact, compares the results with Contentful and triggers webhooks if the estates in Contentful are not up to date.
+
 ## Tasks
 
 1. Poll estates from portal ([estate-portal-aggregator](https://github.com/jroehl/estate-portal-aggregator))
@@ -26,7 +28,8 @@
 
 ## TODO
 
-- [ ] CiCd
-- [ ] Tests
+- [x] CiCd
+- [x] Tests
+- [ ] E2E Tests
 - [x] Scheduling
-- [ ] development / production deploys
+- [x] development / production deploys

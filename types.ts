@@ -7,8 +7,11 @@ import { RealEstateCommonProperties } from 'estate-portal-aggregator/lib/classes
 import { Entry } from 'contentful';
 import { OutgoingHttpHeaders } from 'http';
 
-export interface WebhookResponse {
+export interface WebhookResponse extends InvokeResponseCommon {
   url: string;
+}
+
+export interface InvokeResponseCommon {
   flags: {
     triggered: boolean;
     hasUpdates: boolean;
@@ -55,9 +58,12 @@ export declare interface ContentfulConfig {
   cdaToken: string;
 }
 
-export declare interface Webhook {
+export declare interface Webhook extends InvokeCommon {
   url: string;
   headers?: OutgoingHttpHeaders;
+}
+
+export declare interface InvokeCommon {
   disabled?: boolean;
 }
 

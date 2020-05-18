@@ -3,7 +3,8 @@ import 'source-map-support/register';
 import { getDomains, clearCache } from './lib/config';
 import { fetchEstateSets } from './lib/estates';
 import { getEnvironment, httpResponse, Logger } from './lib/utils';
-import { generatePayload, triggerWebhooks } from './lib/webhook';
+import { triggerWebhooks } from './lib/triggers/webhook';
+import { generatePayload } from './lib/triggers/utils';
 
 export const poll: APIGatewayProxyHandler = async (): Promise<
   APIGatewayProxyResult

@@ -85,6 +85,7 @@ custom:
 functions:
   poll:
     handler: handler.poll
+    timeout: 30
     events:
       - schedule:
           rate: cron(0 6-21 * * ? *)

@@ -6,6 +6,8 @@ import { getEnvironment, httpResponse, Logger } from './lib/utils';
 import { triggerWebhooks } from './lib/triggers/webhook';
 import { generatePayload } from './lib/triggers/utils';
 
+const pluralize = (results) => (results.length === 1 ? '' : 's');
+
 export const poll: APIGatewayProxyHandler = async (): Promise<
   APIGatewayProxyResult
 > => {
@@ -14,20 +16,32 @@ export const poll: APIGatewayProxyHandler = async (): Promise<
 
     const results = await Promise.all(
       domains.map(async (domain) => {
-        const estateSets = await fetchEstateSets(domain);
-        const payload = generatePayload(estateSets);
-        const webhooks = await triggerWebhooks(domain, payload);
-        return {
-          domain,
-          webhooks,
-          payload,
-        };
+        try {
+          const estateSets = await fetchEstateSets(domain);
+          const payload = generatePayload(estateSets);
+          const webhooks = await triggerWebhooks(domain, payload);
+          return {
+            domain,
+            webhooks,
+            payload,
+          };
+        } catch (error) {
+          return {
+            domain,
+            error,
+          };
+        }
       })
     );
 
     const env = getEnvironment();
-    const plural = results.length === 1 ? '' : 's';
-    const msg = `${results.length} domain${plural} polled successfully (${env})`;
+    const successful = results.filter(({ error }) => !error);
+    const unsuccessful = results.filter(({ error }) => error);
+    const msg = `${successful.length} domain${pluralize(
+      successful
+    )} polled successfully, ${unsuccessful.length} domain${pluralize(
+      unsuccessful
+    )} failed (${env})`;
 
     clearCache();
     return httpResponse(200, msg, results);

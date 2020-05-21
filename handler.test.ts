@@ -1,7 +1,7 @@
 import { poll } from './handler';
 
 const responseBody = {
-  message: '2 domains polled successfully (test)',
+  message: '2 domains polled successfully, 0 domains failed (test)',
   result: [
     {
       domain: 'foobar.com',

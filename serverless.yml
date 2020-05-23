@@ -64,7 +64,7 @@ custom:
         threshold: 50
         treatMissingData: notBreaching
       functionDuration:
-        threshold: 4000
+        threshold: 20000
         treatMissingData: notBreaching
       statusCodeErrors:
         metric: statusCodeErrors

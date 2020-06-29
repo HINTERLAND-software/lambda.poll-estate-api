@@ -34,7 +34,7 @@ export class Portal {
 
   public async fetchEstates(): Promise<Portal> {
     this.estates = await this.aggregator.fetchEstates({
-      detailed: false,
+      detailed: true,
       recursively: true,
     });
     return this;

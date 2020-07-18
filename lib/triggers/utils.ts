@@ -37,8 +37,10 @@ export const generatePayload = (sets: EstateSets): Payload => {
   );
 
   const deleted = contentful
-    .filter(({ sys }) =>
-      portal.every(({ internalID }) => internalID !== sys.id)
+    .filter(
+      ({ sys, fields: { title = '' } }) =>
+        portal.every(({ internalID }) => internalID !== sys.id) &&
+        !title.includes('[dummy]')
     )
     .map(({ sys }) => sys.id);
 

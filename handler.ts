@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 import 'source-map-support/register';
-import { getDomains, clearCache } from './lib/config';
+import { getDomains, clearCache, getConfig } from './lib/config';
 import { fetchEstateSets } from './lib/estates';
 import { getEnvironment, httpResponse, Logger } from './lib/utils';
 import { triggerWebhooks } from './lib/triggers/webhook';
@@ -45,6 +45,27 @@ export const poll: APIGatewayProxyHandler = async (): Promise<
 
     clearCache();
     return httpResponse(200, msg, results);
+  } catch (error) {
+    Logger.error(error);
+    clearCache();
+    return httpResponse(error.statusCode, error.message, error);
+  }
+};
+
+export const config: APIGatewayProxyHandler = async (): Promise<
+  APIGatewayProxyResult
+> => {
+  try {
+    const domains = await getDomains();
+    const configurations = await Promise.all(domains.map(getConfig));
+    const env = getEnvironment();
+
+    clearCache();
+    return httpResponse(200, 'Configuration results', {
+      env,
+      domains,
+      configurations,
+    });
   } catch (error) {
     Logger.error(error);
     clearCache();

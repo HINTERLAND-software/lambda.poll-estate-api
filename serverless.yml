@@ -95,3 +95,11 @@ functions:
           cors: true
           path: /
           method: POST
+  config:
+    handler: handler.config
+    events:
+      - http:
+          private: true
+          cors: true
+          path: /config
+          method: GET

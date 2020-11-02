@@ -40,7 +40,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.778.0",
+    "aws-sdk": "^2.783.0",
     "contentful": "^7.14.8",
     "estate-portal-aggregator": "^1.4.3",
     "jsonpath": "^1.0.2",

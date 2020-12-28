@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.817.0",
-    "contentful": "^8.1.4",
+    "contentful": "^8.1.5",
     "estate-portal-aggregator": "^1.4.3",
     "jsonpath": "^1.0.2",
     "source-map-support": "^0.5.19"

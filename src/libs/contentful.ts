@@ -1,6 +1,6 @@
 import * as contentful from 'contentful';
 import jp from 'jsonpath';
-import { ContentfulConfig } from '../types';
+import { ContentfulConfig } from './types';
 
 export class Contentful {
   constructor(private config: ContentfulConfig) {}

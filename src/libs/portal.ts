@@ -10,7 +10,7 @@ import {
   RealEstateCommonProperties,
 } from 'estate-portal-aggregator/lib/classes/portals/Estate';
 import jp from 'jsonpath';
-import { PortalConfig } from '../types';
+import { PortalConfig } from './types';
 
 export class Portal {
   constructor(private config: PortalConfig) {}

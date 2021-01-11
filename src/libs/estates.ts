@@ -1,4 +1,4 @@
-import { EstateSets } from '../types';
+import { EstateSets } from './types';
 import { getConfig } from './config';
 import { Contentful } from './contentful';
 import { Portal } from './portal';

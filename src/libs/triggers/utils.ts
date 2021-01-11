@@ -3,7 +3,7 @@ import {
   Payload,
   InvokeCommon,
   InvokeResponseCommon,
-} from '../../types';
+} from '../types';
 import { RealEstateCommonProperties } from 'estate-portal-aggregator/lib/classes/portals/Estate';
 import { Entry } from 'contentful';
 import { getEnvironment, omit } from '../utils';

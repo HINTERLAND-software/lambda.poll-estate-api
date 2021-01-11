@@ -1,7 +1,7 @@
 import http from 'http';
 import https from 'https';
 import { URL } from 'url';
-import { Payload, Webhook, WebhookResponse } from '../../types';
+import { Payload, Webhook, WebhookResponse } from '../types';
 import { getConfig } from '../config';
 import { getConfigPayload, getFlags } from './utils';
 

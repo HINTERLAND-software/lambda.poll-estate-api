@@ -1,5 +1,5 @@
 import { SSM } from 'aws-sdk';
-import { Config } from '../types';
+import { Config } from './types';
 
 export const fetchSSM = async (path: string): Promise<string | undefined> => {
   const { AWS_REGION: region, AWS_SSM_PREFIX: prefix } = process.env;

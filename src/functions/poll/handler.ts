@@ -1,16 +1,19 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 import 'source-map-support/register';
-import { getDomains, clearCache, getConfig } from './lib/config';
-import { fetchEstateSets } from './lib/estates';
-import { getEnvironment, httpResponse, Logger } from './lib/utils';
-import { triggerWebhooks } from './lib/triggers/webhook';
-import { generatePayload } from './lib/triggers/utils';
 
-const pluralize = (results) => (results.length === 1 ? '' : 's');
+import { getDomains, clearCache } from '@libs/config';
+import { fetchEstateSets } from '@libs/estates';
+import { getEnvironment, httpResponse, Logger } from '@libs/utils';
+import { triggerWebhooks } from '@libs/triggers/webhook';
+import { generatePayload } from '@libs/triggers/utils';
+import { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
+import { middyfy } from '@libs/lambda';
 
-export const poll: APIGatewayProxyHandler = async (): Promise<
-  APIGatewayProxyResult
-> => {
+const pluralize = (results: Array<unknown>) =>
+  results.length === 1 ? '' : 's';
+
+export const poll: ValidatedEventAPIGatewayProxyEvent<
+  typeof Object
+> = async () => {
   try {
     const domains = await getDomains();
 
@@ -52,23 +55,4 @@ export const poll: APIGatewayProxyHandler = async (): Promise<
   }
 };
 
-export const config: APIGatewayProxyHandler = async (): Promise<
-  APIGatewayProxyResult
-> => {
-  try {
-    const domains = await getDomains();
-    const configurations = await Promise.all(domains.map(getConfig));
-    const env = getEnvironment();
-
-    clearCache();
-    return httpResponse(200, 'Configuration results', {
-      env,
-      domains,
-      configurations,
-    });
-  } catch (error) {
-    Logger.error(error);
-    clearCache();
-    return httpResponse(error.statusCode, error.message, error);
-  }
-};
+export const main = middyfy(poll);

@@ -8,7 +8,8 @@ import { generatePayload } from '@libs/triggers/utils';
 import { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 
-const pluralize = (results: string) => (results.length === 1 ? '' : 's');
+const pluralize = (results: Array<unknown>) =>
+  results.length === 1 ? '' : 's';
 
 export const poll: ValidatedEventAPIGatewayProxyEvent<
   typeof Object

@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@middy/core": "^1.5.2",
-    "@middy/http-json-body-parser": "^1.5.0",
+    "@middy/http-json-body-parser": "^1.5.2",
     "aws-sdk": "^2.828.0",
     "contentful": "^8.1.7",
     "estate-portal-aggregator": "^1.4.3",

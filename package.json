@@ -48,7 +48,7 @@
     "@middy/http-json-body-parser": "^2.4.3",
     "aws-sdk": "^2.973.0",
     "contentful": "^8.4.2",
-    "estate-portal-aggregator": "^1.4.5",
+    "estate-portal-aggregator": "^1.5.0",
     "jsonpath": "^1.1.1",
     "source-map-support": "^0.5.19"
   }

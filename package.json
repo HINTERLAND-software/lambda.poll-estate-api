@@ -50,6 +50,6 @@
     "contentful": "^8.5.0",
     "estate-portal-aggregator": "^1.5.1",
     "jsonpath": "^1.1.1",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.20"
   }
 }

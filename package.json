@@ -23,7 +23,7 @@
     "@types/aws-lambda": "^8.10.83",
     "@types/jest": "^27.0.2",
     "@types/jsonpath": "^0.2.0",
-    "@types/node": "^16.10.2",
+    "@types/node": "^16.11.6",
     "dotenv": "^10.0.0",
     "fork-ts-checker-webpack-plugin": "^6.3.3",
     "jest": "^26.6.3",
@@ -48,7 +48,7 @@
     "@middy/http-json-body-parser": "^2.5.1",
     "aws-sdk": "^2.999.0",
     "contentful": "^9.0.2",
-    "estate-portal-aggregator": "^1.5.1",
+    "estate-portal-aggregator": "^1.6.0",
     "jsonpath": "^1.1.1",
     "source-map-support": "^0.5.20"
   }

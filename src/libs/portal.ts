@@ -2,12 +2,12 @@ import * as aggregators from 'estate-portal-aggregator';
 import {
   BasicAuth,
   OAuth,
-  TokenAuth,
+  TokenAuth
 } from 'estate-portal-aggregator/lib/classes/Authorization';
 import { Aggregator } from 'estate-portal-aggregator/lib/classes/portals/Aggregator';
 import {
   Estate,
-  RealEstateCommonProperties,
+  RealEstateCommonProperties
 } from 'estate-portal-aggregator/lib/classes/portals/Estate';
 import jp from 'jsonpath';
 import { PortalConfig } from './types';

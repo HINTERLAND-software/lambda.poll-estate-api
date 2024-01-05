@@ -44,7 +44,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [HINTERLAND-software/lambda.poll-estate-api](https://github.com/HINTERLAND-software/lambda.poll-estate-api)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|27<br/>Tools used|01/02/24 <br/>Report generated|
+|28<br/>Tools used|01/05/24 <br/>Report generated|
 |------|------|
 </div>
 
@@ -199,9 +199,9 @@ Full tech stack [here](/techstack.md)
 </table>
 
 
-## <img src='https://img.stackshare.io/group.svg' /> Open source packages (12)</h2>
+## <img src='https://img.stackshare.io/group.svg' /> Open source packages (13)</h2>
 
-## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (12)
+## <img width='24' height='24' src='https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png'/> npm (13)
 
 |NAME|VERSION|LAST UPDATED|LAST UPDATED BY|LICENSE|VULNERABILITIES|
 |:------|:------|:------|:------|:------|:------|
@@ -211,6 +211,7 @@ Full tech stack [here](/techstack.md)
 |[aws-sdk](https://www.npmjs.com/aws-sdk)|v2.999.0|10/04/21|dependabot[bot] |Apache-2.0|N/A|
 |[fork-ts-checker-webpack-plugin](https://www.npmjs.com/fork-ts-checker-webpack-plugin)|v6.3.3|10/04/21|dependabot[bot] |MIT|N/A|
 |[jest-cli](https://www.npmjs.com/jest-cli)|v26.6.3|10/04/21|dependabot[bot] |MIT|N/A|
+|[jsonpath](https://www.npmjs.com/jsonpath)|v1.1.1|08/23/21|dependabot[bot] |MIT|N/A|
 |[source-map-support](https://www.npmjs.com/source-map-support)|v0.5.20|11/02/22|jroehl |MIT|N/A|
 |[ts-jest](https://www.npmjs.com/ts-jest)|v26.5.6|10/04/21|dependabot[bot] |MIT|N/A|
 |[ts-loader](https://www.npmjs.com/ts-loader)|v9.2.6|10/04/21|dependabot[bot] |MIT|N/A|

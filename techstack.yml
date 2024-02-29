@@ -2,7 +2,7 @@ repo_name: HINTERLAND-software/lambda.poll-estate-api
 report_id: 99162c475a8e7e8e26e97a692e1cf5b0
 version: 0.1
 repo_type: Public
-timestamp: '2024-01-05T08:13:12+00:00'
+timestamp: '2024-02-29T19:21:29+00:00'
 requested_by: jroehl
 provider: github
 branch: master
@@ -105,7 +105,7 @@ tools:
   last_updated_by: jroehl
   last_updated_on: 2020-05-13 18:54:43.000000000 Z
 - name: Prettier
-  description: 'Prettier is an opinionated code formatter. '
+  description: Prettier is an opinionated code formatter.
   website_url: https://prettier.io/
   version: 2.4.1
   license: MIT
@@ -172,7 +172,7 @@ tools:
   last_updated_by: dependabot[bot]
   last_updated_on: 2021-10-04 04:48:50.000000000 Z
 - name: Contentful
-  description: 'Contentful is a cloud-based API-first content platform '
+  description: Contentful is a cloud-based API-first content platform
   website_url: https://www.contentful.com/
   open_source: false
   hosted_saas: true
